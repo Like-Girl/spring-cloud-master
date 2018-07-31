@@ -1,0 +1,7 @@
+spring:
+  application: 
+    name: eureka-server
+  profiles:   ## application-{}.yml
+    ## maven动态打包配置
+    active: $spring.profiles.active$
+    ##active: dev

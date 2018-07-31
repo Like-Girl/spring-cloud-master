@@ -1,0 +1,16 @@
+spring:
+  application: 
+    name: client-service
+
+server:
+  context-path: /
+  port: 8021
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://eureka.likegirl.cn:8001/eureka/
+      ##高可用配置
+      ##defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/  
+
