@@ -19,11 +19,11 @@
 	<!-- 进行聚合的子项目 -->
 	<modules>
 		<module>eureka-server</module>
-		<module>eureka-consumer-a</module>
-		<module>eureka-consumer-b</module>
-		<module>eureka-client-a</module>
-		<module>eureka-consumer-ribbon-hystrix-a</module>
-		<module>eureka-consumer-ribbon-hystrix-b</module>
+		<module>springcloud-01-eureka-provide-a</module>
+		<module>springcloud-01-eureka-provide-b</module>
+		<module>springcloud-01-eureka-ribbon</module>
+		<module>springcloud-01-eureka-hystrix-a</module>
+		<module>springcloud-01-eureka-hystrix-b</module>
 		<module>likegirl-wechat</module>
 	</modules>
 
