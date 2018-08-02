@@ -1,0 +1,64 @@
+server:
+  context-path: /
+  port: 3000
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://eureka.likegirl.cn/eureka/
+      ##高可用配置
+      ##defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/  
+
+spring:
+  application:
+      name: rt-api
+  http:
+    encoding:
+      charset: UTF-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    content-type: text/html
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  profiles:
+    active: pro
+  aop:
+    proxy-target-class: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: cn.likegirl.rt.model
+  mapper-locations: classpath:cn/likegirl/rt/mapping/*.xml
+
+mapper:
+  identity: MYSQL
+  # 是否判断字符串类型 !=''
+  notEmpty: true
+  # 驼峰转下划线小写形式
+  style: camelhumpAndLowercase
+  # 可以控制是否支持（getter 和 setter）在方法上使用注解，默认false
+  enableMethodAnnotation: true
+
+logging:
+  level:
+    root: error
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+app:
+  message:
+    basename: classpath:i18n/messages
