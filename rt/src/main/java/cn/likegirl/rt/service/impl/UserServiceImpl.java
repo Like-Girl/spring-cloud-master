@@ -2,9 +2,8 @@ package cn.likegirl.rt.service.impl;
 
 import cn.likegirl.rt.config.database.ReadOnlyConnection;
 import cn.likegirl.rt.model.User;
-import cn.likegirl.rt.service.base.AbstractService;
 import cn.likegirl.rt.service.UserService;
-import cn.likegirl.rt.tools.BaseServiceImpl;
+import cn.likegirl.rt.service.base.BaseService;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +14,16 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+public class UserServiceImpl extends BaseService<User> implements UserService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
 
-    @ReadOnlyConnection
+//    @ReadOnlyConnection
     @Override
     public List<User> listByPage(int page, int pageSize) {
         PageHelper.startPage(page,pageSize);
-//        return userMapper.selectAll();
-        return null;
+        return userMapper.selectAll();
     }
 }

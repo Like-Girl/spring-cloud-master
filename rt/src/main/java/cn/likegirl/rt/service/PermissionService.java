@@ -1,7 +1,7 @@
 package cn.likegirl.rt.service;
 
 import cn.likegirl.rt.model.Permission;
-import cn.likegirl.rt.tools.IService;
+import cn.likegirl.rt.service.base.Service;
 
-public interface PermissionService extends IService<Permission> {
+public interface PermissionService extends Service<Permission> {
 }

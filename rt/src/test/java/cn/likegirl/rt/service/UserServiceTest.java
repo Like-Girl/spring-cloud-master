@@ -36,8 +36,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void test(){
+        System.out.println(permissionService.getById(1));
+    }
+
+    @Test
     public void test5(){
-        permissionService.find(new Permission()).forEach(System.out::print);
+        permissionService.find(new Permission(null,null,null)).forEach(System.out::println);
     }
 
     @Autowired

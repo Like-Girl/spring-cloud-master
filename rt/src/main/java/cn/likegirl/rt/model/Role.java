@@ -2,12 +2,14 @@ package cn.likegirl.rt.model;
 
 import tk.mybatis.mapper.annotation.NameStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
 @Table(name = "sys_roles")
 @NameStyle
 public class Role implements Serializable {
+    @Id
     private Long id;
     private String role; //角色标识 程序中判断使用,如"admin"
     private String description; //角色描述,UI界面显示使用

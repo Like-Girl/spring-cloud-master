@@ -2,6 +2,7 @@ package cn.likegirl.rt.model;
 
 import tk.mybatis.mapper.annotation.NameStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @NameStyle
 public class UserRole implements Serializable {
 
+    @Id
     private Long userId;
     private Long roleId;
 

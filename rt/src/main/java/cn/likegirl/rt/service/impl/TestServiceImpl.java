@@ -7,7 +7,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestServiceImpl extends BaseService implements TestService {
+public class TestServiceImpl implements TestService {
 
     @HystrixCommand(fallbackMethod = "error", commandProperties = {
             @HystrixProperty(name="execution.isolation.strategy", value = "THREAD"),

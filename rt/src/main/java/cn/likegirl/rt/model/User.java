@@ -2,6 +2,7 @@ package cn.likegirl.rt.model;
 
 import tk.mybatis.mapper.annotation.NameStyle;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -9,6 +10,8 @@ import java.io.Serializable;
 @Table(name = "sys_users")
 @NameStyle
 public class User implements Serializable {
+
+    @Id
     private Long id;
     private String username;
     private String password;
@@ -56,33 +59,12 @@ public class User implements Serializable {
         this.salt = salt;
     }
 
-    public String getCredentialsSalt() {
-        return username + salt;
-    }
-
     public Boolean getLocked() {
         return locked;
     }
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 
     @Override

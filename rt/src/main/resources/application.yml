@@ -51,7 +51,9 @@ mapper:
 
 logging:
   level:
-    root: error
+#    root: error
+    cn.likegirl.rt: debug
+    tk.mybatis: trace
 
 pagehelper:
   helperDialect: mysql
