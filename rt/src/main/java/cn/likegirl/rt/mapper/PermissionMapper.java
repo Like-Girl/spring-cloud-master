@@ -2,6 +2,7 @@ package cn.likegirl.rt.mapper;
 
 import cn.likegirl.rt.config.database.BaseMapper;
 import cn.likegirl.rt.model.Permission;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by HD on 2018/1/31.
  */
+@Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     List<String> findPermissions(@Param("username") String username);

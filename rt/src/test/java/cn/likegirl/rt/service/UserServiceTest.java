@@ -37,7 +37,11 @@ public class UserServiceTest {
 
     @Test
     public void test(){
-        System.out.println(permissionService.getById(1));
+        System.out.println(permissionService.getById(1L));
+        // 插入一条实验
+        Permission permission = new Permission("user:hello3","测试3",true);
+        permissionService.insert(permission);
+        System.out.println(permission);
     }
 
     @Test

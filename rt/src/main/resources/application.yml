@@ -48,6 +48,7 @@ mapper:
   style: camelhumpAndLowercase
   # 可以控制是否支持（getter 和 setter）在方法上使用注解，默认false
   enableMethodAnnotation: true
+  mappers: cn.likegirl.rt.config.database.BaseMapper
 
 logging:
   level:
