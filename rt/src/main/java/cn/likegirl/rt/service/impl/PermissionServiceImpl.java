@@ -10,5 +10,4 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class PermissionServiceImpl extends BaseService<Permission> implements PermissionService {
 
-
 }

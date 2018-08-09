@@ -53,7 +53,7 @@ public class MybatisConfiguration extends MybatisAutoConfiguration {
     }
 
     @Bean
-    public AbstractRoutingDataSource roundRobinDataSourceProxy(){
+    public ReadWriteSplitRoutingDataSource roundRobinDataSourceProxy(){
         ReadWriteSplitRoutingDataSource proxy = new ReadWriteSplitRoutingDataSource();
         //主从数据源
         Map<Object,Object> targetDataSources = new HashMap<>();

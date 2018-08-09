@@ -1,5 +1,7 @@
 package cn.likegirl.rt.service;
 
+import cn.likegirl.rt.constant.Const;
+import cn.likegirl.rt.framework.exception.DataConflictException;
 import cn.likegirl.rt.model.Permission;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,6 +49,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void 事物测试(){
+        Permission permission1 = new Permission("user:hello2","测试2",true);
+        permission1.setId(5L);
+        permissionService.update(permission1);
+    }
+
+    @Test
     public void test5(){
         permissionService.find(new Permission(null,null,null)).forEach(System.out::println);
     }
@@ -57,6 +68,11 @@ public class UserServiceTest {
         ValueOperations<String, String> vo = redisTemplate.opsForValue();
         vo.set("sex", "女");
         System.err.println(vo.get("sex"));
+    }
+
+    @Test
+    public void test7(){
+        throw new DataConflictException();
     }
 
 }

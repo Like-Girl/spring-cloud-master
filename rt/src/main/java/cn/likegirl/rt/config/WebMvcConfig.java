@@ -1,5 +1,7 @@
 package cn.likegirl.rt.config;
 
+import cn.likegirl.rt.framework.interceptor.ResponseResultInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +9,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -16,6 +19,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    private ResponseResultInterceptor responseResultInterceptor;
+
     /**
      * 静态资源映射
      */
@@ -23,6 +29,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         super.addResourceHandlers(registry);
+    }
+
+    /**
+     * 注册自定义拦截器
+     *
+     * @param registry InterceptorRegistry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+        registry.addInterceptor(responseResultInterceptor);
     }
 
     /**
@@ -69,6 +86,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         validator.setValidationMessageSource(messageSource());
         return validator;
     }
+
+
+
 
 
 }

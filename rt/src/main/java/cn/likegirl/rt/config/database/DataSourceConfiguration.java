@@ -20,7 +20,6 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 
 @Configuration
-@EnableTransactionManagement
 public class DataSourceConfiguration {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(DataSourceConfiguration.class);
