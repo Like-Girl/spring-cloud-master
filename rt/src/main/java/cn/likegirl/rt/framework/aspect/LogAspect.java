@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @desc 请求参数、响应体统一日志打印
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 10/10/2017 9:54 AM
  */
 @Aspect

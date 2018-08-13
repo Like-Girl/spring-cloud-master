@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @desc 参数无效项辅助器
  *
- * @author zhumaer
+ * @author LikeGirl
  * @since 9/29/2017 3:00 PM
  */
 public class ParameterInvalidItemHelper {

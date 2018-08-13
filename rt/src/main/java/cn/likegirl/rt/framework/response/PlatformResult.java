@@ -6,7 +6,7 @@ import cn.likegirl.rt.constant.ResultCode;
 /**
  * @desc 平台通用返回结果
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 10/9/2017 3:00 PM
  */
 public class PlatformResult implements Result {

@@ -18,7 +18,7 @@ import javax.validation.ConstraintViolationException;
 /**
  * @desc 统一异常处理器
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 8/31/2017 3:00 PM
  */
 @RestController

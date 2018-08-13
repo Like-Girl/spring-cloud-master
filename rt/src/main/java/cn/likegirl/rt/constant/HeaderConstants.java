@@ -4,7 +4,7 @@ package cn.likegirl.rt.constant;
 /**
  * @desc Header的key罗列
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 8/31/2017 3:00 PM
  */
 public class HeaderConstants {

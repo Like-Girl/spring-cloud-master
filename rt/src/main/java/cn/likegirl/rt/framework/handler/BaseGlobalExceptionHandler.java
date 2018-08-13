@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @desc 全局异常处理基础类
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 10/10/2017 9:54 AM
  */
 public abstract class BaseGlobalExceptionHandler {

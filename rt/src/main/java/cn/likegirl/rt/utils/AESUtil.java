@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 /**
  * @desc AES加、解密工具类
  * 
- * @author zhumaer
+ * @author LikeGirl
  * @since 6/20/2017 3:00 PM
  */
 public class AESUtil {

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @desc 应用级对象获取工具类
  *
- * @author zhumaer
+ * @author LikeGirl
  * @since 9/18/2017 3:00 PM
  */
 public class RequestContextUtil {
