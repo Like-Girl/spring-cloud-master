@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,9 +30,10 @@ import java.util.List;
  * @since 10/10/2017 9:54 AM
  */
 @Aspect
-public class RestControllerAspect {
+@Component
+public class LogAspect {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(RestControllerAspect.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 
 	/**
 	 * 环绕通知

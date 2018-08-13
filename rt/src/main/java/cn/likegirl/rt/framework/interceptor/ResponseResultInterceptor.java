@@ -12,13 +12,14 @@ import java.lang.reflect.Method;
 
 
 /**
- * @desc 接口响应体控制拦截器
- * 
- * @author zhumaer
- * @since 4/1/2018 3:00 PM
+ * ResponseResult 注解处理
+ *
+ * @deprecated
+ * @author LikeGirl
  */
 
-@Component
+//@Component
+@Deprecated
 public class ResponseResultInterceptor implements HandlerInterceptor {
 
 	public static final String RESPONSE_RESULT = "RESPONSE-RESULT";

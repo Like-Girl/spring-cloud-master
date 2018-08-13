@@ -19,8 +19,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private ResponseResultInterceptor responseResultInterceptor;
+//    @Autowired
+//    private ResponseResultInterceptor responseResultInterceptor;
 
     /**
      * 静态资源映射
@@ -39,7 +39,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
-        registry.addInterceptor(responseResultInterceptor);
+//        registry.addInterceptor(responseResultInterceptor);
     }
 
     /**

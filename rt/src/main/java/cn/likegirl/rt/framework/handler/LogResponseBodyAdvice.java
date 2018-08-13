@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
+ * Responese 结果集增强
  * @author LikeGirl
  */
 @ControllerAdvice
@@ -32,8 +34,10 @@ public class LogResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        ResponseResult responseResultAnn = (ResponseResult) RequestContextUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
-        return responseResultAnn != null;
+//        ResponseResult responseResultAnn = (ResponseResult) RequestContextUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
+        Class<?> clazz = returnType.getDeclaringClass();
+        Method method = returnType.getMethod();
+        return clazz.isAnnotationPresent(ResponseResult.class) || method.isAnnotationPresent(ResponseResult.class);
     }
 
     @Override
@@ -44,7 +48,11 @@ public class LogResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             String requestUriWithoutContextPath = servletRequest.getRequestURI().substring(servletRequest.getContextPath().length());
             LOGGER.debug("uri={} | responseBody={}", requestUriWithoutContextPath, FastJsonConvertUtil.convertObjectToJSON(body));
         }
-        ResponseResult responseResultAnn = (ResponseResult) RequestContextUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
+//        ResponseResult responseResultAnn = (ResponseResult) RequestContextUtil.getRequest().getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
+
+        // 优先级: 方法 > 类
+        ResponseResult responseResultAnn = returnType.getDeclaringClass().getAnnotation(ResponseResult.class);
+        responseResultAnn = returnType.getMethod().getAnnotation(ResponseResult.class) == null ? responseResultAnn : returnType.getMethod().getAnnotation(ResponseResult.class);
 
         Class<? extends Result> resultClazz = responseResultAnn.value();
 
@@ -54,8 +62,9 @@ public class LogResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 PlatformResult platformResult = new PlatformResult();
                 BeanUtils.copyProperties(defaultErrorResult,platformResult);
                 return platformResult;
-            } else if (body instanceof String) {
-                return JSONObject.toJSONString(PlatformResult.success(body));
+            }
+            if(body instanceof Result){
+                return body;
             }
             return PlatformResult.success(body);
         }
