@@ -1,5 +1,6 @@
 package cn.likegirl.rt.service;
 
+import cn.likegirl.rt.config.security.service.PasswordEncoderService;
 import cn.likegirl.rt.constant.Const;
 import cn.likegirl.rt.framework.exception.DataConflictException;
 import cn.likegirl.rt.model.Permission;
@@ -73,6 +74,14 @@ public class UserServiceTest {
     @Test
     public void test7(){
         throw new DataConflictException();
+    }
+
+    @Autowired
+    PasswordEncoderService passwordEncoderService;
+
+    @Test
+    public void test8(){
+        System.err.println(passwordEncoderService.encodePassword("123456","1001"));
     }
 
 }
