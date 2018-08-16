@@ -84,4 +84,5 @@ public class UserServiceTest {
         System.err.println(passwordEncoderService.encodePassword("123456","1001"));
     }
 
+
 }
