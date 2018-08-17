@@ -6,7 +6,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,17 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ *  token 校验
+ */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authToken = request.getHeader("Authorization");
-
         if (authToken != null && authToken.startsWith(JwtUtil.JWT_SEPARATOR)) {
             try {
                 // The part after "Bearer "
@@ -60,7 +60,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 logger.error("非法参数异常: {} " + e);
             }
         }
-
         chain.doFilter(request, response);
     }
 }

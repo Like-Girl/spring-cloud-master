@@ -43,7 +43,7 @@ mybatis:
 mapper:
   identity: MYSQL
   # 是否判断字符串类型 !=''
-  notEmpty: true
+  notEmpty: false
   # 驼峰转下划线小写形式
   style: camelhumpAndLowercase
   # 可以控制是否支持（getter 和 setter）在方法上使用注解，默认false

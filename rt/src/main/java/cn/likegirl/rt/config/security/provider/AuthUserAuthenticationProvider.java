@@ -35,9 +35,9 @@ public class AuthUserAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("security.auth.exception.wrong_principal");
         }
 
-        if (!passwordEncoderService.isPasswordValid(user.getPassword(),password ,user.getSalt() )) {
-            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
-        }
+//        if (!passwordEncoderService.isPasswordValid(user.getPassword(),password ,user.getSalt() )) {
+//            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+//        }
 
         AuthUser authUser = AuthUserFactory.create(user);
 
