@@ -11,7 +11,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,6 +30,18 @@ public class AjaxAwareUsernamePasswordAuthenticationFilter extends UsernamePassw
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         super.setAuthenticationManager(authenticationManager);
+    }
+
+    @Override
+    @Autowired
+    public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler successHandler) {
+        super.setAuthenticationSuccessHandler(successHandler);
+    }
+
+    @Override
+    @Autowired
+    public void setAuthenticationFailureHandler(AuthenticationFailureHandler failureHandler) {
+        super.setAuthenticationFailureHandler(failureHandler);
     }
 
     @Override

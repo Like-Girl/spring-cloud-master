@@ -19,12 +19,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Key;
 
 /**
  *  token 校验
  */
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -35,11 +36,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if (authToken != null && authToken.startsWith(JwtUtil.JWT_SEPARATOR)) {
             try {
                 // The part after "Bearer "
-                String username = JwtUtil.parseJWT(JwtUtil.generateKey(JwtUtil.JWT_ALG),authToken).getBody().getSubject();
+                Key key = JwtUtil.generateKey(JwtUtil.JWT_ALG,JwtUtil.JWT_RULE);
+                String username = JwtUtil.parseJWT(key,authToken).getBody().getSubject();
                 logger.info("checking authentication " + username);
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    // 待更改
+                    // 待更改 根据需要确定
                     if (JwtUtil.checkJWT(authToken, userDetails.getUsername())) {
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

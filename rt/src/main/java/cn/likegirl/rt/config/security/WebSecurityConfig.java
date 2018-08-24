@@ -2,10 +2,12 @@ package cn.likegirl.rt.config.security;
 
 
 import cn.likegirl.rt.config.security.filter.AjaxAwareUsernamePasswordAuthenticationFilter;
-import cn.likegirl.rt.config.security.filter.JwtAuthenticationTokenFilter;
+import cn.likegirl.rt.config.security.filter.AuthenticationTokenFilter;
+import cn.likegirl.rt.config.security.filter.CustomUsernamePasswordAuthenticationFilter;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationFailureHandler;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationSuccessHandler;
 import cn.likegirl.rt.config.security.handler.AuthLogoutSuccessHandler;
+import cn.likegirl.rt.config.security.point.RestAuthenticationEntryPoint;
 import cn.likegirl.rt.config.security.provider.AuthUserAuthenticationProvider;
 import cn.likegirl.rt.config.security.service.AuthUserDetailsService;
 import cn.likegirl.rt.config.security.service.PasswordEncoderService;
@@ -21,11 +23,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -79,22 +79,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             // 匿名访问
             .authorizeRequests()
-            .antMatchers("/login", "/login-error", "/register", "/user/register/**", "/forgot/**", "/captchas/**", "/help")
+            .antMatchers("/login","/login-01", "/login-error", "/register", "/user/register/**", "/forgot/**", "/captchas/**", "/help")
             .anonymous()
+//                .permitAll()
             // 设置
             // 其他所有资源都需要权限
             .anyRequest().authenticated()
             .and()
             //这里必须要写formLogin()
             // 不然原有的UsernamePasswordAuthenticationFilter不会出现，也就无法配置我们重新的UsernamePasswordAuthenticationFilter
-            .addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterAt(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 //            .addFilter(ajaxAwareUsernamePasswordAuthenticationFilter())
-            .formLogin()
-            .loginPage("/login")
+//            .formLogin()
+//            .loginPage("/login1")
 //            .successHandler(successHandler())
 //            .failureHandler(failureHandler())
-            .permitAll()
-            .and()
+//            .permitAll()
+//            .and()
             // 登出项配置
             .logout()
             .invalidateHttpSession(true)
@@ -106,7 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.addFilterAt(usernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         //使用jwt的Authentication
-//        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         // 禁用headers缓存
         http.headers().cacheControl();
 
@@ -142,17 +143,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
-        return new JwtAuthenticationTokenFilter();
+    public AuthenticationTokenFilter authenticationTokenFilter(){
+        return new AuthenticationTokenFilter();
     }
 
     @Bean
-    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
-        UsernamePasswordAuthenticationFilter authentication = new AjaxAwareUsernamePasswordAuthenticationFilter();
+    public AjaxAwareUsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
+        AjaxAwareUsernamePasswordAuthenticationFilter authentication = new AjaxAwareUsernamePasswordAuthenticationFilter();
         authentication.setAuthenticationSuccessHandler(successHandler());
         authentication.setAuthenticationFailureHandler(failureHandler());
-//        authentication.setAuthenticationManager(this.authenticationManagerBean());
+        authentication.setFilterProcessesUrl("/login");
         return new AjaxAwareUsernamePasswordAuthenticationFilter();
+    }
+
+    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter authentication = new CustomUsernamePasswordAuthenticationFilter();
+        authentication.setAuthenticationSuccessHandler(successHandler());
+        authentication.setAuthenticationFailureHandler(failureHandler());
+        authentication.setAuthenticationManager(this.authenticationManagerBean());
+        authentication.setFilterProcessesUrl("/login-01");
+        return new CustomUsernamePasswordAuthenticationFilter();
     }
 
     /**

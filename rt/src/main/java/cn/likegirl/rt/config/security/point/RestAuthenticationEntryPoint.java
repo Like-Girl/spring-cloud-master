@@ -1,4 +1,4 @@
-package cn.likegirl.rt.config.security;
+package cn.likegirl.rt.config.security.point;
 
 import java.io.IOException;
 
