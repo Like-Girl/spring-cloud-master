@@ -26,23 +26,6 @@ import java.io.InputStream;
 @Slf4j
 public class AjaxAwareUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Override
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        super.setAuthenticationManager(authenticationManager);
-    }
-
-    @Override
-    @Autowired
-    public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler successHandler) {
-        super.setAuthenticationSuccessHandler(successHandler);
-    }
-
-    @Override
-    @Autowired
-    public void setAuthenticationFailureHandler(AuthenticationFailureHandler failureHandler) {
-        super.setAuthenticationFailureHandler(failureHandler);
-    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {

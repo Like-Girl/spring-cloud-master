@@ -3,7 +3,6 @@ package cn.likegirl.rt.config.security;
 
 import cn.likegirl.rt.config.security.filter.AjaxAwareUsernamePasswordAuthenticationFilter;
 import cn.likegirl.rt.config.security.filter.AuthenticationTokenFilter;
-import cn.likegirl.rt.config.security.filter.CustomUsernamePasswordAuthenticationFilter;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationFailureHandler;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationSuccessHandler;
 import cn.likegirl.rt.config.security.handler.AuthLogoutSuccessHandler;
@@ -86,12 +85,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // 其他所有资源都需要权限
             .anyRequest().authenticated()
             .and()
-            //这里必须要写formLogin()
-            // 不然原有的UsernamePasswordAuthenticationFilter不会出现，也就无法配置我们重新的UsernamePasswordAuthenticationFilter
-            .addFilterAt(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//            .addFilter(ajaxAwareUsernamePasswordAuthenticationFilter())
+            // 用重写的Filter替换掉原有的UsernamePasswordAuthenticationFilter
+            .addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            //使用jwt的Authentication
+            .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+            // 这里不需要配置 formLogin()，若配置，则会开启原有的UsernamePasswordAuthenticationFilter验证
+            // 和我们自定义的 usernamePasswordAuthenticationFilter()并不冲突，两套验证都能使用
+            // 自定义 usernamePasswordAuthenticationFilter() 完全兼容
+            // UsernamePasswordAuthenticationFilter,使用 from-data
+            // usernamePasswordAuthenticationFilter(),使用 application/json
 //            .formLogin()
-//            .loginPage("/login1")
+//            .loginPage("/login")
 //            .successHandler(successHandler())
 //            .failureHandler(failureHandler())
 //            .permitAll()
@@ -103,11 +107,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessHandler(logoutSuccessHandler())
             .permitAll();
 
-        //用重写的Filter替换掉原有的UsernamePasswordAuthenticationFilter
-//        http.addFilterAt(usernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        //使用jwt的Authentication
-        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         // 禁用headers缓存
         http.headers().cacheControl();
 
@@ -148,21 +147,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AjaxAwareUsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
-        AjaxAwareUsernamePasswordAuthenticationFilter authentication = new AjaxAwareUsernamePasswordAuthenticationFilter();
+    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
+        UsernamePasswordAuthenticationFilter authentication = new AjaxAwareUsernamePasswordAuthenticationFilter();
         authentication.setAuthenticationSuccessHandler(successHandler());
         authentication.setAuthenticationFailureHandler(failureHandler());
+        authentication.setAuthenticationManager(this.authenticationManager());
         authentication.setFilterProcessesUrl("/login");
-        return new AjaxAwareUsernamePasswordAuthenticationFilter();
-    }
-
-    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
-        CustomUsernamePasswordAuthenticationFilter authentication = new CustomUsernamePasswordAuthenticationFilter();
-        authentication.setAuthenticationSuccessHandler(successHandler());
-        authentication.setAuthenticationFailureHandler(failureHandler());
-        authentication.setAuthenticationManager(this.authenticationManagerBean());
-        authentication.setFilterProcessesUrl("/login-01");
-        return new CustomUsernamePasswordAuthenticationFilter();
+        return authentication;
     }
 
     /**
@@ -173,6 +164,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
 }
