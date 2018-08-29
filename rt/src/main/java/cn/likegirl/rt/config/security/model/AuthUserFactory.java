@@ -20,6 +20,7 @@ public class AuthUserFactory {
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
+                user.getSalt(),
                 mapToGrantedAuthorities(roles)
         );
     }

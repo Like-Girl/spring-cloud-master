@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.security.Key;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,36 +46,6 @@ public class JwtTest {
         }
     }
 
-    public String format(String typeName, BigDecimal minTemp, BigDecimal maxTemp){
-        if(StringUtils.isEmpty(typeName)
-                || minTemp == null
-                || maxTemp == null){
-            throw new RuntimeException("参数错误");
-        }
-        typeName = typeName.replaceAll("(\\([^\\)]*\\))","");
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(typeName)
-                .append("(")
-                .append(minTemp.toString())
-                .append("℃~")
-                .append(maxTemp.toString())
-                .append("℃)");
-        return stringBuilder.toString();
-    }
-
-    public static Map<String,Object> parse(String s){
-        Map<String,Object> result = new HashMap<>();
-        String regex = "^(.*)\\([^\\(\\-0-9]*?\\-*?(\\-?[0-9]+)[^\\(\\-0-9]*\\-*?(\\-?[0-9]+)[^\\(0-9]*\\)$";
-        Pattern compile = Pattern.compile(regex);
-        Matcher matcher = compile.matcher(s);
-        if(matcher.matches()){
-            result.put("typeTemp",matcher.group(1));
-            result.put("minTemp",BigDecimal.valueOf(Double.valueOf(matcher.group(2))));
-            result.put("maxTemp",BigDecimal.valueOf(Double.valueOf(matcher.group(3))));
-        }
-        return result;
-    }
-
     @Test
     public void test04(){
 //        System.out.println(format("常温(5℃~20℃)",BigDecimal.valueOf(20.00),BigDecimal.valueOf(20.00)));
@@ -85,6 +56,9 @@ public class JwtTest {
 
     @Test
     public void test05(){
-        System.out.println("123".split(",").length);
+        Time time = Time.valueOf("04:05:00");
+        System.out.println(time.toString());
+
     }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,7 @@ public class AuthUserAuthenticationProvider implements AuthenticationProvider {
     private PasswordEncoderService passwordEncoderService;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
 
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
@@ -32,12 +33,12 @@ public class AuthUserAuthenticationProvider implements AuthenticationProvider {
         user = userService.get(user);
 
         if (user == null) {
-            throw new BadCredentialsException("security.auth.exception.wrong_principal");
+            throw new UsernameNotFoundException("Authentication Failed. User does not exist.");
         }
 
-//        if (!passwordEncoderService.isPasswordValid(user.getPassword(),password ,user.getSalt() )) {
-//            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
-//        }
+        if (!passwordEncoderService.isPasswordValid(user.getPassword(),password ,user.getSalt() )) {
+            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+        }
 
         AuthUser authUser = AuthUserFactory.create(user);
 

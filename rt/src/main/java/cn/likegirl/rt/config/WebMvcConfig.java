@@ -22,6 +22,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 //    @Autowired
 //    private ResponseResultInterceptor responseResultInterceptor;
 
+
+
+
     /**
      * 静态资源映射
      */

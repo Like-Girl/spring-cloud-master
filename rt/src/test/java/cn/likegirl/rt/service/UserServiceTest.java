@@ -4,6 +4,7 @@ import cn.likegirl.rt.config.security.service.PasswordEncoderService;
 import cn.likegirl.rt.constant.Const;
 import cn.likegirl.rt.framework.exception.DataConflictException;
 import cn.likegirl.rt.model.Permission;
+import cn.likegirl.rt.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,11 @@ public class UserServiceTest {
 
     @Test
     public void test8(){
-        System.err.println(passwordEncoderService.encodePassword("123456","1001"));
+        User user = new User();
+        user.setUsername("li");
+        user.setPassword("123");
+        user.setSalt("612767570e8068b6fa974b575bf77e4a");
+        System.err.println(passwordEncoderService.encodePassword(user.getPassword(),user.getUsername() + user.getSalt()));
     }
 
 

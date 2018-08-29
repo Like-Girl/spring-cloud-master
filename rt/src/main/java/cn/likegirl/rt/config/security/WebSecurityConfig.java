@@ -5,7 +5,8 @@ import cn.likegirl.rt.config.security.filter.AjaxAwareUsernamePasswordAuthentica
 import cn.likegirl.rt.config.security.filter.AuthenticationTokenFilter;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationFailureHandler;
 import cn.likegirl.rt.config.security.handler.AjaxAwareAuthenticationSuccessHandler;
-import cn.likegirl.rt.config.security.handler.AuthLogoutSuccessHandler;
+import cn.likegirl.rt.config.security.handler.AuthenticationLogoutSuccessHandler;
+import cn.likegirl.rt.config.security.handler.AuthenticationAccessDeniedHandler;
 import cn.likegirl.rt.config.security.point.RestAuthenticationEntryPoint;
 import cn.likegirl.rt.config.security.provider.AuthUserAuthenticationProvider;
 import cn.likegirl.rt.config.security.service.AuthUserDetailsService;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.dao.ReflectionSaltSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +25,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -72,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .csrf().disable()
             .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler())
             .and()
             // 取消 session
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -117,8 +122,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider())
-                .userDetailsService(authUserService).passwordEncoder(passwordEncoderService);
+        // security 可以配置多认证器（provider）
+        // 只需要有一个provider认证通过，即认证成功
+        auth/*.authenticationProvider(authenticationProvider())*/
+                .authenticationProvider(daoAuthenticationProvider());
+        // 设置 userDetailsService 和 passwordEncoder
+        // 会启用security 默认配置的 provider => DaoAuthenticationProvider
+        // 在这里我们将不适用系统默认的DaoAuthenticationProvider,不必配置此项
+//        auth.userDetailsService(authUserService).passwordEncoder(passwordEncoderService)
     }
 
     @Bean
@@ -132,13 +143,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new AuthenticationAccessDeniedHandler();
+    }
+
+    @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new AuthLogoutSuccessHandler();
+        return new AuthenticationLogoutSuccessHandler();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         return new AuthUserAuthenticationProvider();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(authUserService);
+        provider.setPasswordEncoder(passwordEncoderService);
+        provider.setHideUserNotFoundExceptions(Boolean.FALSE);
+        ReflectionSaltSource saltSource = new ReflectionSaltSource();
+        // 加点盐
+        saltSource.setUserPropertyToUse("credentialsSalt");
+        provider.setSaltSource(saltSource);
+        return provider;
     }
 
     @Bean
@@ -164,5 +193,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
+
 
 }

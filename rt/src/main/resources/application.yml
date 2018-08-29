@@ -33,6 +33,11 @@ spring:
     active: pro
   aop:
     proxy-target-class: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    # 启用默认的资源处理
+    add-mappings: false
 
 mybatis:
   configuration:

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
 public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired

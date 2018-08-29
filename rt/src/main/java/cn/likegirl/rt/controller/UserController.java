@@ -18,6 +18,9 @@ public class UserController {
         if(id > 50){
             throw new DataConflictException();
         }
+        if(id > 30){
+            System.out.println(30/0);
+        }
         Permission permission = new Permission("菜单", "menu", true);
         return PlatformResult.success(permission);
     }

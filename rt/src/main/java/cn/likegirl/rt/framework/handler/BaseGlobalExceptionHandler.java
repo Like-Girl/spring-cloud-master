@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -81,5 +82,12 @@ public abstract class BaseGlobalExceptionHandler {
 		LOGGER.error("handleRuntimeException start, uri:{}, caused by: ", request.getRequestURI(), e);
 		return DefaultErrorResult.failure(ResultCode.SYSTEM_INNER_ERROR, e, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	protected DefaultErrorResult handleNoHandlerFoundException(NoHandlerFoundException e, HttpServletRequest request) {
+		LOGGER.error("handleNoHandlerFoundException start, uri:{}, caused by: ", request.getRequestURI(), e);
+		return DefaultErrorResult.failure(ResultCode.RESOURCE_NOT_EXISTED,e,HttpStatus.NOT_FOUND);
+	}
+
+
 
 }

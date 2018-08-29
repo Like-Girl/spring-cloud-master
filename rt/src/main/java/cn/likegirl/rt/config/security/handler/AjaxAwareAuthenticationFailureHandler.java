@@ -1,5 +1,6 @@
 package cn.likegirl.rt.config.security.handler;
 
+import cn.likegirl.rt.constant.Const;
 import cn.likegirl.rt.constant.ResultCode;
 import cn.likegirl.rt.framework.response.DefaultErrorResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import javax.servlet.ServletException;
@@ -24,16 +26,15 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-        if (exception instanceof BadCredentialsException) {
-            objectMapper.writeValue(response.getWriter(), DefaultErrorResult.failure(ResultCode.SYSTEM_INNER_ERROR,exception,HttpStatus.UNAUTHORIZED));
+        response.setCharacterEncoding(Const.CHARSET_UTF8);
+        if(exception instanceof UsernameNotFoundException){
+            objectMapper.writeValue(response.getWriter(), DefaultErrorResult.failure(ResultCode.USER_NOT_EXIST,exception,HttpStatus.UNAUTHORIZED));
+        }else if (exception instanceof BadCredentialsException) {
+            objectMapper.writeValue(response.getWriter(), DefaultErrorResult.failure(ResultCode.USER_PASSWORD_ERROR,exception,HttpStatus.UNAUTHORIZED));
         }
-        objectMapper.writeValue(response.getWriter(), DefaultErrorResult.failure(ResultCode.NO_SUCH_METHOD_EXCEPTION,exception,HttpStatus.UNAUTHORIZED));
+        objectMapper.writeValue(response.getWriter(), DefaultErrorResult.failure(ResultCode.USER_LOGIN_ERROR,exception,HttpStatus.UNAUTHORIZED));
     }
-
-
-
 
 }

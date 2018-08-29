@@ -55,6 +55,7 @@
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 		<guava.version>26.0-jre</guava.version>
         <lombok.version>1.18.0</lombok.version>
+		<org.apache.shiro.version>1.2.4</org.apache.shiro.version>
 	</properties>
 	
 	<dependencyManagement>

@@ -101,7 +101,7 @@ public class LogAspect {
 			}
 			sb.append(paramStr).append(",");
 		}
-		return sb.deleteCharAt(sb.length() - 1).toString();
+		return sb.length() > 0 ? sb.deleteCharAt(sb.length() - 1).toString() : null;
 	}
 
 	private boolean needToLog(Method method) {

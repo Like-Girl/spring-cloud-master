@@ -63,6 +63,7 @@ public class LogResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 BeanUtils.copyProperties(defaultErrorResult,platformResult);
                 return platformResult;
             }
+
             if(body instanceof Result){
                 return body;
             }

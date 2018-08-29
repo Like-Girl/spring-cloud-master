@@ -4,6 +4,7 @@ import tk.mybatis.mapper.annotation.NameStyle;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 
@@ -65,6 +66,11 @@ public class User implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
+    }
+
+    @Transient
+    public String getCredentialsSalt() {
+        return username + salt;
     }
 
     @Override

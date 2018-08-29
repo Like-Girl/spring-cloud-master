@@ -1,16 +1,17 @@
 package cn.likegirl.rt.framework.handler;
 
+import cn.likegirl.rt.constant.ResultCode;
 import cn.likegirl.rt.framework.exception.BusinessException;
 import cn.likegirl.rt.framework.response.DefaultErrorResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -61,7 +62,12 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 		return super.handleBusinessException(e, request);
 	}
 
-	/** 处理运行时异常 */
+	/**
+	 * 500 处理运行时异常
+	 *
+	 * @param e		RuntimeException
+	 * @param request	HttpServletRequest
+	 */
 	@Override
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(RuntimeException.class)
@@ -69,5 +75,20 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 		//TODO 可通过邮件、微信公众号等方式发送信息至开发人员、记录存档等操作
 		return super.handleRuntimeException(e, request);
 	}
+
+	/**
+	 * 404 异常信息
+	 *
+	 * @param e		NoHandlerFoundException
+	 * @param request	HttpServletRequest
+	 */
+	@Override
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(value= HttpStatus.NOT_FOUND)
+	public DefaultErrorResult handleNoHandlerFoundException(NoHandlerFoundException e, HttpServletRequest request) {
+		return super.handleNoHandlerFoundException(e,request);
+	}
+
+	//=============================================================================================================
 
 }
