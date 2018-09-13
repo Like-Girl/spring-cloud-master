@@ -4,7 +4,7 @@ import cn.likegirl.rt.constant.ResultCode;
 
 public class UserNotLoginException extends BusinessException {
 
-    private static final long serialVersionUID = 3721036867889297081L;
+    private static final long serialVersionUID = 8908597750918145062L;
 
     public UserNotLoginException() {
         super();

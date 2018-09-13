@@ -61,16 +61,6 @@ public class RedisUtil {
         return result;
     }
     /**
-     * 批量删除对应的value
-     * @param keys
-     */
-    public void remove(final String... keys) {
-        for (String key : keys) {
-            remove(key);
-        }
-    }
-
-    /**
      * 批量删除key
      * @param pattern
      */
@@ -78,6 +68,16 @@ public class RedisUtil {
         Set<Serializable> keys = redisTemplate.keys(pattern);
         if (keys.size() > 0){
             redisTemplate.delete(keys);
+        }
+    }
+
+    /**
+     * 批量删除对应的value
+     * @param keys
+     */
+    public void remove(final String... keys) {
+        for (String key : keys) {
+            remove(key);
         }
     }
     /**

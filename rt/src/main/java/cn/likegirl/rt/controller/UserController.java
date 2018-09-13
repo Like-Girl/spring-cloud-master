@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @ResponseResult
 @RestController
-public class UserController {
+public class UserController extends BaseController {
 
     @RequestMapping(value = "/user/{id}",method = RequestMethod.GET)
     public Result save(@PathVariable(value = "id") Long id){

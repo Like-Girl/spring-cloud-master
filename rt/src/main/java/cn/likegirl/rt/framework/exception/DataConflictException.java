@@ -4,7 +4,7 @@ import cn.likegirl.rt.constant.ResultCode;
 
 public class DataConflictException extends BusinessException {
 
-    private static final long serialVersionUID = 3721036867889297081L;
+    private static final long serialVersionUID = 5097385837074606467L;
 
     public DataConflictException() {
         super();

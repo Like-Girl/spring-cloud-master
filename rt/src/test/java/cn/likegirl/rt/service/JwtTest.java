@@ -1,8 +1,10 @@
 package cn.likegirl.rt.service;
 
 import cn.likegirl.rt.utils.JwtUtil;
+import cn.likegirl.rt.utils.KeyUtil;
 import cn.likegirl.rt.utils.TemperatureUtils;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.collections.MapUtils;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +52,7 @@ public class JwtTest {
     public void test04(){
 //        System.out.println(format("常温(5℃~20℃)",BigDecimal.valueOf(20.00),BigDecimal.valueOf(20.00)));
 //        System.out.println(Pattern.matches("^\\([^\\)]*\\)&","(20.0℃~20.0℃)"));
-        TemperatureUtils.Temp temp = TemperatureUtils.parse("常温(20.00℃~20.00℃)");
+        TemperatureUtils.Temp temp = TemperatureUtils.parse("常温");
         System.out.println(temp.toString());
     }
 
@@ -58,7 +60,40 @@ public class JwtTest {
     public void test05(){
         Time time = Time.valueOf("04:05:00");
         System.out.println(time.toString());
+    }
+
+    @Test
+    public void test06(){
+        for (int i = 0; i < 10; i++){
+            System.out.println(KeyUtil.generatorUUID());
+        }
+
 
     }
 
+    @Test
+    public void test07(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("from",null);
+        map.put("to",null);
+        System.out.println(MapUtils.isEmpty(map));
+
+    }
+
+}
+
+enum Order{
+    CREATE("1"),
+    UPDATE("2"),
+    SELECT("3");
+
+    private String value;
+
+    private Order(String value){
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

@@ -8,7 +8,8 @@ import cn.likegirl.rt.constant.ResultCode;
  */
 public class DataNotFoundException extends BusinessException {
 
-    private static final long serialVersionUID = 3721036867889297081L;
+
+    private static final long serialVersionUID = 429667789018724339L;
 
     public DataNotFoundException() {
         super();

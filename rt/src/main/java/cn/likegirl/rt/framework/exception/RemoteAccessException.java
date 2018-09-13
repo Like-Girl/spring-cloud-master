@@ -4,7 +4,7 @@ import cn.likegirl.rt.constant.ResultCode;
 
 public class RemoteAccessException extends BusinessException {
 
-    private static final long serialVersionUID = 3721036867889297081L;
+    private static final long serialVersionUID = -6785908129997270115L;
 
     public RemoteAccessException() {
         super();

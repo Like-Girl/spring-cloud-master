@@ -4,7 +4,7 @@ import cn.likegirl.rt.constant.ResultCode;
 
 public class InternalServerException extends BusinessException {
 
-    private static final long serialVersionUID = 3721036867889297081L;
+    private static final long serialVersionUID = 2563922841289422382L;
 
     public InternalServerException() {
         super();
