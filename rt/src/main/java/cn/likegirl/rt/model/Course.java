@@ -32,6 +32,11 @@ public class Course extends ColumnObject implements Serializable {
     private String name;
 
     /**
+     * 课程类别
+     */
+    private Integer type;
+
+    /**
      * 课程描述
      */
     private String description;

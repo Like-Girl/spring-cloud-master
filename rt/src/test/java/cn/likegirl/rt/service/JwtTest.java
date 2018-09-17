@@ -77,23 +77,11 @@ public class JwtTest {
         map.put("from",null);
         map.put("to",null);
         System.out.println(MapUtils.isEmpty(map));
-
     }
 
-}
-
-enum Order{
-    CREATE("1"),
-    UPDATE("2"),
-    SELECT("3");
-
-    private String value;
-
-    private Order(String value){
-        this.value = value;
+    @Test
+    public void test08(){
+        System.out.println(KeyUtil.generatorUUID());
     }
 
-    public String getValue() {
-        return value;
-    }
 }
