@@ -5,8 +5,10 @@ import cn.likegirl.rt.service.TestService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class TestServiceImpl implements TestService {
 
     @HystrixCommand(fallbackMethod = "error", commandProperties = {

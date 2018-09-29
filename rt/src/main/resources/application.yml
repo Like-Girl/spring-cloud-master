@@ -4,15 +4,18 @@ server:
   
 eureka:
   client:
+    # 是否将自己注册到Eureka服务中，默认为true
+    registerWithEureka: true
     service-url:
-      ##单点配置:
-      defaultZone: http://eureka.likegirl.cn/eureka/
-      ##高可用配置
-      ##defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/  
+      ## 单点配置:
+#      defaultZone: http://eureka.likegirl.cn/eureka/
+      ## 高可用配置
+      ## defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/
+      defaultZone: http://user:password123@192.168.11.45:8761///eureka   #设置了账号密码
 
 spring:
   application:
-      name: rt-api
+      name: api
   http:
     encoding:
       charset: UTF-8
@@ -38,6 +41,10 @@ spring:
   resources:
     # 启用默认的资源处理
     add-mappings: false
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
 
 mybatis:
   configuration:
@@ -70,3 +77,30 @@ pagehelper:
 app:
   message:
     basename: classpath:i18n/messages
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 12000
+
+tms-mgr:
+  ribbon:
+    ## 只适应ribbon组件 下面这个配置 并未卵~~~
+#    ConnectTimeout: 250   # 链接超时时间
+#    ReadTimeout: 3000     # 处理超时时间
+    # 是否对所有的请求都进行重试
+    OkToRetryOnAllOperations: false
+    MaxAutoRetriesNextServer: 2
+    # 重试时切换实例的次数
+    ribbon.MaxAutoRetries: 0
+
+custom:
+  rest:
+    connect-timeout: 1000
+    connection-request-timeout: 1000
+    read-timeout: 3000

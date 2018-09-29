@@ -1,5 +1,6 @@
 package cn.likegirl.rt.controller;
 
+import cn.likegirl.rt.service.ActivityService;
 import cn.likegirl.rt.service.CourseService;
 import cn.likegirl.rt.service.OrderService;
 import cn.likegirl.rt.service.TutorService;
@@ -15,5 +16,8 @@ public class BaseController {
 
     @Autowired
     protected CourseService courseService;
+
+    @Autowired
+    protected ActivityService activityService;
 
 }
