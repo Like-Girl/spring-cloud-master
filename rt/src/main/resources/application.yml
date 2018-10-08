@@ -95,8 +95,9 @@ tms-mgr:
 #    ReadTimeout: 3000     # 处理超时时间
     # 是否对所有的请求都进行重试
     OkToRetryOnAllOperations: false
+    # 切换实例的重试次数
     MaxAutoRetriesNextServer: 2
-    # 重试时切换实例的次数
+    # 对当前实例的重试次数
     ribbon.MaxAutoRetries: 0
 
 custom:
