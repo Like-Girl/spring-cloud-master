@@ -2,7 +2,7 @@ package cn.likegirl.rt.config.rabbitmq;
 
 public class RabbitConstant {
     //交换机名称
-    public final static String EXCHANGE = "exchange_test";
+    public final static String EXCHANGE = "fanout-exchange";
     //队列
     public final static String QUEUE_TRANSACTION = "queue_transaction";
     public final static String QUEUE_CONTRACT = "queue_contract";

@@ -1,10 +1,10 @@
 package cn.likegirl.rt.config.rabbitmq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +20,9 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class RabbitMqConfig {
 
+    @Autowired
+    ConnectionFactory connectionFactory;
+
     /**
      * RabbitTemplate 发送消息，必须是prototype类型，
      * 因为要设置回调类，所以应是prototype类型，如果是singleton类型，则回调类为最后一次设置
@@ -29,7 +32,7 @@ public class RabbitMqConfig {
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate();
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
 
         /**若使用confirm-callback或return-callback，
          * 必须要配置publisherConfirms或publisherReturns为true
@@ -72,62 +75,54 @@ public class RabbitMqConfig {
 
 
     /**
-     * 声明队列
+     * 时间：2018/3/5 上午10:45
+     * @apiNote 定义扇出（广播）交换器
      */
     @Bean
-    public Queue queueTransaction() {
-        // true表示持久化该队列
-        return new Queue(RabbitConstant.QUEUE_TRANSACTION, true);
-    }
-
-    @Bean
-    public Queue queueContract() {
-        // true表示持久化该队列
-        return new Queue(RabbitConstant.QUEUE_CONTRACT, true);
-    }
-
-    @Bean
-    public Queue queueQualification() {
-        // true表示持久化该队列
-        return new Queue(RabbitConstant.QUEUE_QUALIFICATION, true);
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange(RabbitConstant.EXCHANGE);
     }
 
     /**
-     * 声明交互器
-     *
-     * @return
+     * 时间：2018/3/5 上午10:48
+     * @apiNote 定义自动删除匿名队列
      */
-    @Bean
-    public DirectExchange directExchange() {
-        return new DirectExchange(RabbitConstant.EXCHANGE);
+    @Bean("autoDeleteQueue0")
+    public Queue autoDeleteQueue0() {
+        return new AnonymousQueue();
     }
 
     /**
-     * 绑定
-     *
+     * 时间：2018/3/5 上午10:48
+     * @apiNote 定义自动删除匿名队列
      */
-    @Bean
-    public Binding bindingTransaction() {
-        return BindingBuilder.bind(queueTransaction()).to(directExchange()).with(RabbitConstant.RK_TRANSACTION);
+    @Bean("autoDeleteQueue1")
+    public Queue autoDeleteQueue1() {
+        return new AnonymousQueue();
     }
 
     /**
-     * 绑定
-     *
+     * 时间：2018/3/5 上午10:48
+     * @param fanoutExchange 扇出（广播）交换器
+     * @param autoDeleteQueue0 自动删除队列
+     * @apiNote 把队列绑定到扇出（广播）交换器
+     * @return Binding
      */
     @Bean
-    public Binding bindingContract() {
-        return BindingBuilder.bind(queueContract()).to(directExchange()).with(RabbitConstant.RK_CONTRACT);
+    public Binding binding0(FanoutExchange fanoutExchange,@Qualifier("autoDeleteQueue0") Queue autoDeleteQueue0) {
+        return BindingBuilder.bind(autoDeleteQueue0).to(fanoutExchange);
     }
 
     /**
-     * 绑定
-     *
+     * 时间：2018/3/5 上午10:55
+     * @param fanoutExchange 扇出（广播）交换器
+     * @param autoDeleteQueue1 自动删除队列
+     * @apiNote 把队列绑定到扇出（广播）交换器
+     * @return Binding
      */
     @Bean
-    public Binding bindingQualification() {
-        return BindingBuilder.bind(queueQualification()).to(directExchange()).with(RabbitConstant.RK_QUALIFICATION);
+    public Binding binding1(FanoutExchange fanoutExchange,@Qualifier("autoDeleteQueue1") Queue autoDeleteQueue1) {
+        return BindingBuilder.bind(autoDeleteQueue1).to(fanoutExchange);
     }
-
 
 }

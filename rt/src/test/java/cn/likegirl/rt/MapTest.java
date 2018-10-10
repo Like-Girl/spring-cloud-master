@@ -26,7 +26,6 @@ public class MapTest {
         body.put("intValue",a);
         body.put("longValue",123L);
 
-
         BusinessMap<String,Object> body1 = new BusinessMap<>();
         body1.put("datetime","2018-09-21 01:26:01");
         System.err.println(body.get("datetime1",Date.class,true));
@@ -38,5 +37,11 @@ public class MapTest {
         System.out.println(body.get("timeC", Date[].class).length);
         System.out.println(body.get("dec", BigDecimal.class));
 
+    }
+
+    @Test
+    public void test02(){
+        Random random = new Random();
+        System.out.println(random.nextInt(100));
     }
 }
