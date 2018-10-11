@@ -92,11 +92,12 @@ public class TestController {
         message.setMessage(params.get("msg",String.class,Boolean.TRUE));
 
         // 生成路由键值，生成规则如下: websocket订阅的目的地 + "-user" + websocket的sessionId值。生成值类似:
-        String actualDestination = "message";
+        String actualDestination = params.get("actualDestination",String.class);
         String routingKey = getTopicRoutingKey(actualDestination, wsSessionId);
         // 向amq.topi交换机发送消息，路由键为routingKey
         LOGGER.info("向用户[{}]sessionId=[{}]，发送消息[{}]，路由键[{}]", name, wsSessionId, wsSessionId, routingKey);
-        amqpTemplate.convertAndSend("amq.topic", routingKey,  JSONObject.toJSONString(message));
+        String exchanges = params.get("exchange",String.class);
+        amqpTemplate.convertAndSend(exchanges, routingKey,  JSONObject.toJSONString(message));
         return 0;
     }
 
