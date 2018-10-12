@@ -46,7 +46,7 @@ spring:
       retry:
         enabled: true
   rabbitmq:
-      host: 192.168.11.240
+      host: 114.67.226.113
       port: 5672
       username: admin
       password: 123456

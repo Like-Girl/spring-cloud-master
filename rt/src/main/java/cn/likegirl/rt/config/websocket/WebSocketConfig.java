@@ -36,7 +36,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 //                // "STOMP broker relay"处理所有消息将消息发送到外部的消息代理
                 .enableStompBrokerRelay("/exchange","/topic","/queue","/amq/queue")
                 .setVirtualHost("/")
-                .setRelayHost("192.168.11.240")
+                .setRelayHost("114.67.226.113")
                 .setClientLogin("admin")
                 .setClientPasscode("123456")
                 .setSystemLogin("admin")

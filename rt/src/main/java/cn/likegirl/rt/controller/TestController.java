@@ -122,7 +122,8 @@ public class TestController {
         String routingKey = params.get("routingKey",String.class,Boolean.TRUE);
         // 向amq.topi交换机发送消息，路由键为routingKey
         LOGGER.info("发送消息[{}]，路由键[{}]", params, routingKey);
-        amqpTemplate.convertAndSend("amq.topic", routingKey,  JSONObject.toJSONString(message));
+        String exchange = params.get("exchange",String.class,Boolean.TRUE);
+        amqpTemplate.convertAndSend(exchange, routingKey,  JSONObject.toJSONString(message));
         return 0;
     }
 
