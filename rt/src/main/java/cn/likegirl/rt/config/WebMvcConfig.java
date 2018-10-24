@@ -1,6 +1,7 @@
 package cn.likegirl.rt.config;
 
 import cn.likegirl.rt.framework.interceptor.ResponseResultInterceptor;
+import cn.likegirl.rt.framework.interceptor.UrlInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 //    @Autowired
 //    private ResponseResultInterceptor responseResultInterceptor;
+
+    @Autowired
+    private UrlInterceptor urlInterceptor;
 
 
 
@@ -43,6 +47,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
 //        registry.addInterceptor(responseResultInterceptor);
+        registry.addInterceptor(urlInterceptor);
     }
 
     /**

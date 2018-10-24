@@ -116,12 +116,23 @@ tms-mgr:
     # 是否对所有的请求都进行重试
     OkToRetryOnAllOperations: false
     # 切换实例的重试次数
-    MaxAutoRetriesNextServer: 2
+    MaxAutoRetriesNextServer: 3
     # 对当前实例的重试次数
     ribbon.MaxAutoRetries: 0
 
 custom:
   rest:
-    connect-timeout: 1000
-    connection-request-timeout: 1000
+    connect-timeout: 2000
+    connection-request-timeout: 2000
     read-timeout: 3000
+endpoints:
+  shutdown:
+    enabled: true
+management:
+  context-path: /manage
+  address: 192.168.11.83
+  security:
+    enabled: false
+security:
+  basic:
+    enabled: false

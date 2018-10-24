@@ -30,7 +30,7 @@ public class WebSocketMessageHandler {
         return message;
     }
 
-    /*@Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000)
     @SendTo("/topic/callback")
     public Object callback() throws Exception {
         // 发现消息
@@ -38,5 +38,5 @@ public class WebSocketMessageHandler {
         String time = df.format(new Date());
         messagingTemplate.convertAndSend("/topic/callback", time);
         return "callback";
-    }*/
+    }
 }

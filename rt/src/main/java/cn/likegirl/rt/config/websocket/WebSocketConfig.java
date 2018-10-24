@@ -34,6 +34,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         // 指服务端接收地址的前缀，意思就是说客户端给服务端发消息的地址的前缀
         registry.setApplicationDestinationPrefixes("/app")
 //                // "STOMP broker relay"处理所有消息将消息发送到外部的消息代理
+                // exchange 交换机 -》 /exchange/<exchange>/<routingKey> 例如： /exchange/amq.topic/ke
                 .enableStompBrokerRelay("/exchange","/topic","/queue","/amq/queue")
                 .setVirtualHost("/")
                 .setRelayHost("114.67.226.113")

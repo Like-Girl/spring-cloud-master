@@ -1,11 +1,13 @@
 package cn.likegirl.rt;
 
 import cn.likegirl.rt.utils.BusinessMap;
-import org.apache.commons.beanutils.ConvertUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MapTest {
@@ -43,5 +45,32 @@ public class MapTest {
     public void test02(){
         Random random = new Random();
         System.out.println(random.nextInt(100));
+    }
+
+
+    @Test
+    public void test03(){
+        String sid = "TMS:WEB_SOCKET:SESSION:236:0655a264-127f-4c25-85a5-d055705a879f";
+        String rex = "^\\S+:([\\S]{36})$";
+        Pattern compile = Pattern.compile(rex);
+        Matcher matcher = compile.matcher(sid);
+        if(matcher.matches()){
+            System.out.println(matcher.groupCount());
+            System.out.println(matcher.group(1));
+        }
+    }
+
+    @Test
+    public void test04(){
+        Time t1 = Time.valueOf("09:23:00");
+        Time t2 = Time.valueOf("09:23:00");
+        System.out.println(t1.compareTo(t2));
+    }
+
+    @Test
+    public void test05(){
+        float a = 12344444444444444444444444444444444443.23000F;
+        double b = 0.12;
+        Float c = 0.12F;
     }
 }

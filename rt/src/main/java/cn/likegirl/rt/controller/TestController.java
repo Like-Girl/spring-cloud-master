@@ -22,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -63,7 +65,7 @@ public class TestController {
 //            e.printStackTrace();
 //        }
 //        ResponseEntity<PlatformResult> response = restTemplate.exchange("http://tms-mgr/applet/order/fixed-vehicle", HttpMethod.POST,requestEntity,PlatformResult.class);
-        PlatformResult result = restTemplate.postForObject("http://tms-mgr/applet/order/fixed-vehicle",requestEntity,PlatformResult.class);
+        PlatformResult result = restTemplate.postForObject("http://tms-mgr-service/applet/order/fixed-vehicle",requestEntity,PlatformResult.class);
         return result;
     }
 
@@ -93,7 +95,7 @@ public class TestController {
 
         // 生成路由键值，生成规则如下: websocket订阅的目的地 + "-user" + websocket的sessionId值。生成值类似:
         String actualDestination = params.get("actualDestination",String.class);
-        String routingKey = getTopicRoutingKey(actualDestination, wsSessionId);
+        String routingKey = getTopicRoutingKey(actualDestination, wsSessionId) + params.get("t",String.class);
         // 向amq.topi交换机发送消息，路由键为routingKey
         LOGGER.info("向用户[{}]sessionId=[{}]，发送消息[{}]，路由键[{}]", name, wsSessionId, wsSessionId, routingKey);
         String exchanges = params.get("exchange",String.class);
@@ -125,6 +127,32 @@ public class TestController {
         String exchange = params.get("exchange",String.class,Boolean.TRUE);
         amqpTemplate.convertAndSend(exchange, routingKey,  JSONObject.toJSONString(message));
         return 0;
+    }
+
+    @RequestMapping(value = "/send", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public PlatformResult hello1(@RequestBody Map<String,Object> map){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        MultiValueMap<String, Object> params= new LinkedMultiValueMap<>();
+        params.add("actualDestination","message");
+        params.add("exchange","amq.topic");
+        params.add("userId",191);
+        params.add("voiceMessage","您有新温度报警，请及时处理！");
+        Map<String, Object> responseMessage= new HashMap<>();
+        responseMessage.put("plateNumber","沪DJ7232");
+        responseMessage.put("temperature","5℃");
+        responseMessage.put("time","2018-10-19 15:34:20");
+        responseMessage.put("tempCtrol","冷藏(-5℃~0℃)");
+        params.add("responseMessage",responseMessage);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(params, headers);
+//        try {
+//            Thread.sleep(10 * 1000L);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        ResponseEntity<PlatformResult> response = restTemplate.exchange("http://tms-mgr/applet/order/fixed-vehicle", HttpMethod.POST,requestEntity,PlatformResult.class);
+        PlatformResult result = restTemplate.postForObject("http://tms-mgr/test/sendTemperatureAlarmToUser",requestEntity,PlatformResult.class);
+        return result;
     }
 
 }

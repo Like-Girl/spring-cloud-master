@@ -29,6 +29,7 @@ public class IpUtil {
 	private static final String LOOPBACK_ADDRESS = "127.0.0.1";
 
 	private static final String UNKNOWN_ADDRESS = "0:0:0:0:0:0:0:1";
+	private static final String LOCALHOST = "localhost";
 
 	/**
 	 * @Description: 获取请求中的ip地址：过了多级反向代理，获取的ip不是唯一的，二是包含中间代理层ip。
@@ -85,7 +86,7 @@ public class IpUtil {
 		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 			if (LOOPBACK_ADDRESS.equals(ip) || UNKNOWN_ADDRESS.equals(ip)) {
-				//根据网卡取本机配置的IP  
+				// 根据网卡取本机配置的IP
 				try {
 					InetAddress inet = InetAddress.getLocalHost();
 					ip = inet.getHostAddress();
@@ -129,6 +130,80 @@ public class IpUtil {
 		}
 
 		return ipsStr;
+	}
+
+
+	/***
+	 * 获取客户端ip地址(可以穿透代理)
+	 * @param request
+	 * @return
+	 */
+	public static String getClientIpAddr(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_CLUSTER_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_FORWARDED");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_VIA");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getHeader("REMOTE_ADDR");
+		}
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
+
+	public static String getIpAddr1(HttpServletRequest request) {
+		String ip = request.getHeader("X-Real-IP");
+		if (null != ip && !"".equals(ip.trim())
+				&& !"unknown".equalsIgnoreCase(ip)) {
+			return ip;
+		}
+		ip = request.getHeader("X-Forwarded-For");
+		if (null != ip && !"".equals(ip.trim())
+				&& !"unknown".equalsIgnoreCase(ip)) {
+			// get first ip from proxy ip
+			int index = ip.indexOf(',');
+			if (index != -1) {
+				return ip.substring(0, index);
+			} else {
+				return ip;
+			}
+		}
+		return request.getRemoteAddr();
+	}
+
+	/***
+	 * 服务器是否是本机
+	 * @param request
+	 * @return
+	 */
+	public static boolean isLocalIp(HttpServletRequest request){
+		String ip= getClientIpAddr(request);
+		return ip.equals(LOOPBACK_ADDRESS)||ip.equals(LOCALHOST)||ip.equals(UNKNOWN_ADDRESS);
 	}
 
 }
