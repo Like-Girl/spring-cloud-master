@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             // 匿名访问
             .authorizeRequests()
-            .antMatchers("/login","/login-01", "/login-error", "/register", "/user/**", "/manage/**", "/captchas/**", "/help", "/my-websocket", "/my-websocket/**")
+            .antMatchers("/login","/login-01", "/login-error", "/register", "/user/**", "/forgot/**", "/captchas/**", "/help", "/my-websocket", "/my-websocket/**", "/actuator/**")
             .anonymous()
 //                .permitAll()
             // 设置

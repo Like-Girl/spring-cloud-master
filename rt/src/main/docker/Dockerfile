@@ -8,5 +8,5 @@ WORKDIR /app
 RUN chmod a+x runboot.sh
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \ 
     echo 'Asia/Shanghai' >/etc/timezone 
-EXPOSE 3010
+EXPOSE 3000
 CMD /app/runboot.sh
