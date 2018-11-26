@@ -119,14 +119,13 @@ tms-mgr:
     MaxAutoRetriesNextServer: 3
     # 对当前实例的重试次数
     ribbon.MaxAutoRetries: 0
-
+# 自定义
 custom:
   rest:
     connect-timeout: 2000
     connection-request-timeout: 2000
-    connect-timeout: 1000
-    connection-request-timeout: 1000
     read-timeout: 3000
+
 endpoints:
   shutdown:
     enabled: true
