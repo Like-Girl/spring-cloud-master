@@ -8,10 +8,10 @@ eureka:
     registerWithEureka: true
     service-url:
       ## 单点配置:
-      defaultZone: http://eureka.likegirl.cn/eureka/
+#      defaultZone: http://eureka.likegirl.cn/eureka/
       ## 高可用配置
       ## defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/
-#      defaultZone: http://user:password123@192.168.11.45:8761///eureka   #设置了账号密码
+      defaultZone: http://user:password123@192.168.11.45:8761///eureka   #设置了账号密码
 
 spring:
   application:
@@ -45,26 +45,6 @@ spring:
     loadbalancer:
       retry:
         enabled: true
-  rabbitmq:
-      host: 114.67.226.113
-      port: 5672
-      username: admin
-      password: 123456
-      virtual-host: /
-      #支持发布确认
-      publisher-confirms: true
-      #支持发布返回
-      publisher-returns: true
-      listener:
-        simple:
-        #采用手动应答
-          acknowledge-mode: manual
-          #当前监听容器数量
-          concurrency: 1
-          max-concurrency: 1
-          #是否支持重试
-          retry:
-            enabled: true
 
 mybatis:
   configuration:
@@ -111,8 +91,8 @@ hystrix:
 tms-mgr:
   ribbon:
     ## 只适应ribbon组件 下面这个配置 并未卵~~~
-#    ConnectTimeout: 250   # 链接超时时间
-#    ReadTimeout: 3000     # 处理超时时间
+    ConnectTimeout: 2000   # 链接超时时间
+    ReadTimeout: 3000     # 处理超时时间
     # 是否对所有的请求都进行重试
     OkToRetryOnAllOperations: false
     # 切换实例的重试次数
@@ -124,7 +104,22 @@ custom:
   rest:
     connect-timeout: 2000
     connection-request-timeout: 2000
-    read-timeout: 3000
+    read-timeout: 5000
+
+##feign的配置项:
+feign:
+  ##启动feign的断路器功能
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: true
+  compression:
+    request:
+      min-request-size: 2048
+      mime-types:
+        - text/xml, application/xml, application/json
+    response:
+      enabled: true
 
 endpoints:
   shutdown:

@@ -9,6 +9,26 @@ spring:
     host: 192.168.179.31
     port: 6379
     password: 123456
+  rabbitmq:
+        host: 192.168.11.241
+        port: 5672
+        username: admin
+        password: 123456
+        virtual-host: /
+        #支持发布确认
+        publisher-confirms: true
+        #支持发布返回
+        publisher-returns: true
+        listener:
+          simple:
+          #采用手动应答
+            acknowledge-mode: manual
+            #当前监听容器数量
+            concurrency: 1
+            max-concurrency: 1
+            #是否支持重试
+            retry:
+              enabled: true
 
 # 阿里数据源
 druid:

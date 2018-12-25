@@ -30,8 +30,8 @@ public class WebSocketMessageHandler {
         return message;
     }
 
-    @Scheduled(fixedRate = 1000)
-    @SendTo("/topic/callback")
+//    @Scheduled(fixedRate = 1000)
+//    @SendTo("/topic/callback")
     public Object callback() throws Exception {
         // 发现消息
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
