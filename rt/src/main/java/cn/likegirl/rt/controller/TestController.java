@@ -164,6 +164,16 @@ public class TestController {
     @ResponseBody
     public PlatformResult test10() {
         PlatformResult result = orderFeign.moduleSiteListByLine(333L, null);
+//        PlatformResult result = restTemplate.getForObject("http://tms-mgr/applet/site/list/333", PlatformResult.class);
+        return result;
+    }
+
+    @RequestMapping(value = "/vehicles")
+    @ResponseBody
+    public PlatformResult test11() {
+//        PlatformResult result = orderFeign.moduleSiteListByLine(333L, null);
+//        PlatformResult result = orderFeign.getVehicles(null, "2018-12-28 09:23:00");
+        PlatformResult result = restTemplate.getForObject("http://tms-mgr/applet/waybill/vehicles?assignTime='018-12-28 09:23:00'", PlatformResult.class);
         return result;
     }
 
