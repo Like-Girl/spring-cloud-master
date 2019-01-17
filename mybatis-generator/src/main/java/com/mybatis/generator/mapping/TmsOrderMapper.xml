@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.generator.mapper.TmsOrderMapper">
+  <resultMap id="BaseResultMap" type="com.mybatis.generator.model.TmsOrder">
+    <id column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+    <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
+    <result column="CUSTOMER_NO" jdbcType="VARCHAR" property="customerNo" />
+    <result column="CUSTOMER_ID" jdbcType="BIGINT" property="customerId" />
+    <result column="CUSTOMER_NAME" jdbcType="VARCHAR" property="customerName" />
+    <result column="PROJECT_ID" jdbcType="BIGINT" property="projectId" />
+    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+    <result column="PICKUP_ID" jdbcType="BIGINT" property="pickupId" />
+    <result column="PICKUP_PROVINCE" jdbcType="VARCHAR" property="pickupProvince" />
+    <result column="PICKUP_CITY" jdbcType="VARCHAR" property="pickupCity" />
+    <result column="PICKUP_AREA" jdbcType="VARCHAR" property="pickupArea" />
+    <result column="PICKUP_ADDRESS" jdbcType="VARCHAR" property="pickupAddress" />
+    <result column="PICKUP_USER" jdbcType="VARCHAR" property="pickupUser" />
+    <result column="PICKUP_TEL" jdbcType="VARCHAR" property="pickupTel" />
+    <result column="DESTINATION_ID" jdbcType="BIGINT" property="destinationId" />
+    <result column="DESTINATION_PROVINCE" jdbcType="VARCHAR" property="destinationProvince" />
+    <result column="DESTINATION_CITY" jdbcType="VARCHAR" property="destinationCity" />
+    <result column="DESTINATION_AREA" jdbcType="VARCHAR" property="destinationArea" />
+    <result column="DESTINATION_ADDRESS" jdbcType="VARCHAR" property="destinationAddress" />
+    <result column="DESTINATION_USER" jdbcType="VARCHAR" property="destinationUser" />
+    <result column="DESTINATION_TEL" jdbcType="VARCHAR" property="destinationTel" />
+    <result column="PICKUP_DATETIME" jdbcType="TIMESTAMP" property="pickupDatetime" />
+    <result column="PLANNED_COMPLETION_DATETIME" jdbcType="TIMESTAMP" property="plannedCompletionDatetime" />
+    <result column="DELIVER_DATETIME" jdbcType="TIMESTAMP" property="deliverDatetime" />
+    <result column="RECEIPTED_TYPE" jdbcType="VARCHAR" property="receiptedType" />
+    <result column="GMT_CREATED" jdbcType="TIMESTAMP" property="gmtCreated" />
+    <result column="USER_CREATED" jdbcType="INTEGER" property="userCreated" />
+    <result column="GMT_MODIFIED" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="USER_MODIFIED" jdbcType="INTEGER" property="userModified" />
+    <result column="IS_DELETED" jdbcType="INTEGER" property="isDeleted" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="RECEIVED_PHOTO" jdbcType="VARCHAR" property="receivedPhoto" />
+    <result column="WAYBILL_DATETIME" jdbcType="TIMESTAMP" property="waybillDatetime" />
+    <result column="WAYBILL_USER" jdbcType="INTEGER" property="waybillUser" />
+    <result column="ACTUAL_PICKUP_DATETIME" jdbcType="TIMESTAMP" property="actualPickupDatetime" />
+    <result column="ACTUAL_PICKUP_USER" jdbcType="INTEGER" property="actualPickupUser" />
+    <result column="ACTUAL_OK_DATETIME" jdbcType="TIMESTAMP" property="actualOkDatetime" />
+    <result column="ACTUAL_OK_USER" jdbcType="INTEGER" property="actualOkUser" />
+    <result column="BILLING_METHOD" jdbcType="VARCHAR" property="billingMethod" />
+    <result column="COST" jdbcType="DECIMAL" property="cost" />
+    <result column="PLATE_NUMBER" jdbcType="VARCHAR" property="plateNumber" />
+    <result column="DRIVER_NAME" jdbcType="VARCHAR" property="driverName" />
+    <result column="TYPE_TEMP" jdbcType="VARCHAR" property="typeTemp" />
+    <result column="MIN_TEMP" jdbcType="DECIMAL" property="minTemp" />
+    <result column="MAX_TEMP" jdbcType="DECIMAL" property="maxTemp" />
+    <result column="TEMPERATURE_CONTROL" jdbcType="VARCHAR" property="temperatureControl" />
+    <result column="PRODUCT_NAME" jdbcType="VARCHAR" property="productName" />
+    <result column="VEHICLE_TYPE" jdbcType="VARCHAR" property="vehicleType" />
+    <result column="LINE_ID" jdbcType="INTEGER" property="lineId" />
+    <result column="ORDER_LINE" jdbcType="VARCHAR" property="orderLine" />
+    <result column="ORDER_REMARKS" jdbcType="VARCHAR" property="orderRemarks" />
+    <result column="ORDER_TYPE" jdbcType="TINYINT" property="orderType" />
+    <result column="COMPANY_ID" jdbcType="BIGINT" property="companyId" />
+    <result column="ORIGINATE" jdbcType="TINYINT" property="originate" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tms_order
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.mybatis.generator.model.TmsOrder">
+    insert into tms_order (ORDER_ID, ORDER_NO, CUSTOMER_NO, 
+      CUSTOMER_ID, CUSTOMER_NAME, PROJECT_ID, 
+      PROJECT_NAME, PICKUP_ID, PICKUP_PROVINCE, 
+      PICKUP_CITY, PICKUP_AREA, PICKUP_ADDRESS, 
+      PICKUP_USER, PICKUP_TEL, DESTINATION_ID, 
+      DESTINATION_PROVINCE, DESTINATION_CITY, DESTINATION_AREA, 
+      DESTINATION_ADDRESS, DESTINATION_USER, DESTINATION_TEL, 
+      PICKUP_DATETIME, PLANNED_COMPLETION_DATETIME, 
+      DELIVER_DATETIME, RECEIPTED_TYPE, GMT_CREATED, 
+      USER_CREATED, GMT_MODIFIED, USER_MODIFIED, 
+      IS_DELETED, STATUS, RECEIVED_PHOTO, 
+      WAYBILL_DATETIME, WAYBILL_USER, ACTUAL_PICKUP_DATETIME, 
+      ACTUAL_PICKUP_USER, ACTUAL_OK_DATETIME, ACTUAL_OK_USER, 
+      BILLING_METHOD, COST, PLATE_NUMBER, 
+      DRIVER_NAME, TYPE_TEMP, MIN_TEMP, 
+      MAX_TEMP, TEMPERATURE_CONTROL, PRODUCT_NAME, 
+      VEHICLE_TYPE, LINE_ID, ORDER_LINE, 
+      ORDER_REMARKS, ORDER_TYPE, COMPANY_ID, 
+      ORIGINATE, parent_id)
+    values (#{orderId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=BIGINT}, #{customerName,jdbcType=VARCHAR}, #{projectId,jdbcType=BIGINT}, 
+      #{projectName,jdbcType=VARCHAR}, #{pickupId,jdbcType=BIGINT}, #{pickupProvince,jdbcType=VARCHAR}, 
+      #{pickupCity,jdbcType=VARCHAR}, #{pickupArea,jdbcType=VARCHAR}, #{pickupAddress,jdbcType=VARCHAR}, 
+      #{pickupUser,jdbcType=VARCHAR}, #{pickupTel,jdbcType=VARCHAR}, #{destinationId,jdbcType=BIGINT}, 
+      #{destinationProvince,jdbcType=VARCHAR}, #{destinationCity,jdbcType=VARCHAR}, #{destinationArea,jdbcType=VARCHAR}, 
+      #{destinationAddress,jdbcType=VARCHAR}, #{destinationUser,jdbcType=VARCHAR}, #{destinationTel,jdbcType=VARCHAR}, 
+      #{pickupDatetime,jdbcType=TIMESTAMP}, #{plannedCompletionDatetime,jdbcType=TIMESTAMP}, 
+      #{deliverDatetime,jdbcType=TIMESTAMP}, #{receiptedType,jdbcType=VARCHAR}, #{gmtCreated,jdbcType=TIMESTAMP}, 
+      #{userCreated,jdbcType=INTEGER}, #{gmtModified,jdbcType=TIMESTAMP}, #{userModified,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{receivedPhoto,jdbcType=VARCHAR}, 
+      #{waybillDatetime,jdbcType=TIMESTAMP}, #{waybillUser,jdbcType=INTEGER}, #{actualPickupDatetime,jdbcType=TIMESTAMP}, 
+      #{actualPickupUser,jdbcType=INTEGER}, #{actualOkDatetime,jdbcType=TIMESTAMP}, #{actualOkUser,jdbcType=INTEGER}, 
+      #{billingMethod,jdbcType=VARCHAR}, #{cost,jdbcType=DECIMAL}, #{plateNumber,jdbcType=VARCHAR}, 
+      #{driverName,jdbcType=VARCHAR}, #{typeTemp,jdbcType=VARCHAR}, #{minTemp,jdbcType=DECIMAL}, 
+      #{maxTemp,jdbcType=DECIMAL}, #{temperatureControl,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{vehicleType,jdbcType=VARCHAR}, #{lineId,jdbcType=INTEGER}, #{orderLine,jdbcType=VARCHAR}, 
+      #{orderRemarks,jdbcType=VARCHAR}, #{orderType,jdbcType=TINYINT}, #{companyId,jdbcType=BIGINT}, 
+      #{originate,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mybatis.generator.model.TmsOrder">
+    update tms_order
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      CUSTOMER_NO = #{customerNo,jdbcType=VARCHAR},
+      CUSTOMER_ID = #{customerId,jdbcType=BIGINT},
+      CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=BIGINT},
+      PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+      PICKUP_ID = #{pickupId,jdbcType=BIGINT},
+      PICKUP_PROVINCE = #{pickupProvince,jdbcType=VARCHAR},
+      PICKUP_CITY = #{pickupCity,jdbcType=VARCHAR},
+      PICKUP_AREA = #{pickupArea,jdbcType=VARCHAR},
+      PICKUP_ADDRESS = #{pickupAddress,jdbcType=VARCHAR},
+      PICKUP_USER = #{pickupUser,jdbcType=VARCHAR},
+      PICKUP_TEL = #{pickupTel,jdbcType=VARCHAR},
+      DESTINATION_ID = #{destinationId,jdbcType=BIGINT},
+      DESTINATION_PROVINCE = #{destinationProvince,jdbcType=VARCHAR},
+      DESTINATION_CITY = #{destinationCity,jdbcType=VARCHAR},
+      DESTINATION_AREA = #{destinationArea,jdbcType=VARCHAR},
+      DESTINATION_ADDRESS = #{destinationAddress,jdbcType=VARCHAR},
+      DESTINATION_USER = #{destinationUser,jdbcType=VARCHAR},
+      DESTINATION_TEL = #{destinationTel,jdbcType=VARCHAR},
+      PICKUP_DATETIME = #{pickupDatetime,jdbcType=TIMESTAMP},
+      PLANNED_COMPLETION_DATETIME = #{plannedCompletionDatetime,jdbcType=TIMESTAMP},
+      DELIVER_DATETIME = #{deliverDatetime,jdbcType=TIMESTAMP},
+      RECEIPTED_TYPE = #{receiptedType,jdbcType=VARCHAR},
+      GMT_CREATED = #{gmtCreated,jdbcType=TIMESTAMP},
+      USER_CREATED = #{userCreated,jdbcType=INTEGER},
+      GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},
+      USER_MODIFIED = #{userModified,jdbcType=INTEGER},
+      IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=VARCHAR},
+      RECEIVED_PHOTO = #{receivedPhoto,jdbcType=VARCHAR},
+      WAYBILL_DATETIME = #{waybillDatetime,jdbcType=TIMESTAMP},
+      WAYBILL_USER = #{waybillUser,jdbcType=INTEGER},
+      ACTUAL_PICKUP_DATETIME = #{actualPickupDatetime,jdbcType=TIMESTAMP},
+      ACTUAL_PICKUP_USER = #{actualPickupUser,jdbcType=INTEGER},
+      ACTUAL_OK_DATETIME = #{actualOkDatetime,jdbcType=TIMESTAMP},
+      ACTUAL_OK_USER = #{actualOkUser,jdbcType=INTEGER},
+      BILLING_METHOD = #{billingMethod,jdbcType=VARCHAR},
+      COST = #{cost,jdbcType=DECIMAL},
+      PLATE_NUMBER = #{plateNumber,jdbcType=VARCHAR},
+      DRIVER_NAME = #{driverName,jdbcType=VARCHAR},
+      TYPE_TEMP = #{typeTemp,jdbcType=VARCHAR},
+      MIN_TEMP = #{minTemp,jdbcType=DECIMAL},
+      MAX_TEMP = #{maxTemp,jdbcType=DECIMAL},
+      TEMPERATURE_CONTROL = #{temperatureControl,jdbcType=VARCHAR},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      VEHICLE_TYPE = #{vehicleType,jdbcType=VARCHAR},
+      LINE_ID = #{lineId,jdbcType=INTEGER},
+      ORDER_LINE = #{orderLine,jdbcType=VARCHAR},
+      ORDER_REMARKS = #{orderRemarks,jdbcType=VARCHAR},
+      ORDER_TYPE = #{orderType,jdbcType=TINYINT},
+      COMPANY_ID = #{companyId,jdbcType=BIGINT},
+      ORIGINATE = #{originate,jdbcType=TINYINT},
+      parent_id = #{parentId,jdbcType=BIGINT}
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ORDER_ID, ORDER_NO, CUSTOMER_NO, CUSTOMER_ID, CUSTOMER_NAME, PROJECT_ID, PROJECT_NAME, 
+    PICKUP_ID, PICKUP_PROVINCE, PICKUP_CITY, PICKUP_AREA, PICKUP_ADDRESS, PICKUP_USER, 
+    PICKUP_TEL, DESTINATION_ID, DESTINATION_PROVINCE, DESTINATION_CITY, DESTINATION_AREA, 
+    DESTINATION_ADDRESS, DESTINATION_USER, DESTINATION_TEL, PICKUP_DATETIME, PLANNED_COMPLETION_DATETIME, 
+    DELIVER_DATETIME, RECEIPTED_TYPE, GMT_CREATED, USER_CREATED, GMT_MODIFIED, USER_MODIFIED, 
+    IS_DELETED, STATUS, RECEIVED_PHOTO, WAYBILL_DATETIME, WAYBILL_USER, ACTUAL_PICKUP_DATETIME, 
+    ACTUAL_PICKUP_USER, ACTUAL_OK_DATETIME, ACTUAL_OK_USER, BILLING_METHOD, COST, PLATE_NUMBER, 
+    DRIVER_NAME, TYPE_TEMP, MIN_TEMP, MAX_TEMP, TEMPERATURE_CONTROL, PRODUCT_NAME, VEHICLE_TYPE, 
+    LINE_ID, ORDER_LINE, ORDER_REMARKS, ORDER_TYPE, COMPANY_ID, ORIGINATE, parent_id
+    from tms_order
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ORDER_ID, ORDER_NO, CUSTOMER_NO, CUSTOMER_ID, CUSTOMER_NAME, PROJECT_ID, PROJECT_NAME, 
+    PICKUP_ID, PICKUP_PROVINCE, PICKUP_CITY, PICKUP_AREA, PICKUP_ADDRESS, PICKUP_USER, 
+    PICKUP_TEL, DESTINATION_ID, DESTINATION_PROVINCE, DESTINATION_CITY, DESTINATION_AREA, 
+    DESTINATION_ADDRESS, DESTINATION_USER, DESTINATION_TEL, PICKUP_DATETIME, PLANNED_COMPLETION_DATETIME, 
+    DELIVER_DATETIME, RECEIPTED_TYPE, GMT_CREATED, USER_CREATED, GMT_MODIFIED, USER_MODIFIED, 
+    IS_DELETED, STATUS, RECEIVED_PHOTO, WAYBILL_DATETIME, WAYBILL_USER, ACTUAL_PICKUP_DATETIME, 
+    ACTUAL_PICKUP_USER, ACTUAL_OK_DATETIME, ACTUAL_OK_USER, BILLING_METHOD, COST, PLATE_NUMBER, 
+    DRIVER_NAME, TYPE_TEMP, MIN_TEMP, MAX_TEMP, TEMPERATURE_CONTROL, PRODUCT_NAME, VEHICLE_TYPE, 
+    LINE_ID, ORDER_LINE, ORDER_REMARKS, ORDER_TYPE, COMPANY_ID, ORIGINATE, parent_id
+    from tms_order
+  </select>
+</mapper>
