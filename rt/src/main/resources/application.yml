@@ -64,7 +64,7 @@ mapper:
 
 logging:
   level:
-#    root: error
+#    root: debug
     cn.likegirl.rt: debug
     tk.mybatis: trace
 
@@ -85,6 +85,11 @@ hystrix:
         timeout:
           enabled: true
         isolation:
+          # 官方默认为： THREAD
+          # strategy 可以取THREAD 和 SEMAPHORE 两种策略，两种策略分别是：
+          # THREAD，HystrixCommand.run()在一个单独的线程中执行，即下游依赖的请求在一个单独的线程中隔离，并发请求数收到线程中线程数的限制。
+          # SEMAPHORE，HystrixCommand.run()在调用线程中执行，即下游依赖请求在当前调用线程中执行，并发请求受信号量计数的限制
+#          strategy: SEMAPHORE
           thread:
             timeoutInMilliseconds: 12000
 
@@ -94,7 +99,7 @@ tms-mgr:
     ConnectTimeout: 2000   # 链接超时时间
     ReadTimeout: 3000     # 处理超时时间
     # 是否对所有的请求都进行重试
-    OkToRetryOnAllOperations: false
+    OkToRetryOnAllOperations: true
     # 切换实例的重试次数
     MaxAutoRetriesNextServer: 3
     # 对当前实例的重试次数
@@ -106,7 +111,7 @@ custom:
     connection-request-timeout: 2000
     read-timeout: 5000
 
-##feign的配置项:
+#feign的配置项:
 feign:
   ##启动feign的断路器功能
   hystrix:

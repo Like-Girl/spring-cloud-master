@@ -18,4 +18,9 @@ public class OrderFeignFallback implements OrderFeign {
     public PlatformResult moduleSiteListByLine(Long customerId, String excludeIds) {
         return PlatformResult.failure("远程调用失败");
     }
+
+    @Override
+    public PlatformResult getVehicles(String plateNumber, String assignTime) {
+        return PlatformResult.failure("远程调用失败");
+    }
 }

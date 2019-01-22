@@ -1,5 +1,6 @@
 package cn.likegirl.rt;
 
+import cn.likegirl.rt.config.http.RibbonAgentInterceptor;
 import cn.likegirl.rt.framework.interceptor.RestUserAgentInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +27,9 @@ public class Application {
 	@LoadBalanced		//自动负载均衡： 他的机制是（通过）application name 去寻找服务发现 然后去做负载均衡策略的
 	public RestTemplate restTemplate(){
 		RestTemplate restTemplate = new RestTemplate(httpComponentsClientHttpRequestFactory());
-		restTemplate.setInterceptors(Collections.singletonList(new RestUserAgentInterceptor()));
+		// 两个代码相同
+//		restTemplate.setInterceptors(Collections.singletonList(new RestUserAgentInterceptor()));
+		restTemplate.setInterceptors(Collections.singletonList(new RibbonAgentInterceptor()));
 		return restTemplate;
 	}
 
