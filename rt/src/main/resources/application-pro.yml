@@ -12,7 +12,6 @@ spring:
     sentinel:
       nodes: a1:26379
       master: mymaster
-
   rabbitmq:
     host: 192.168.11.241
     port: 5672
