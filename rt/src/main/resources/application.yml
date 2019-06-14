@@ -8,10 +8,10 @@ eureka:
     registerWithEureka: true
     service-url:
       ## 单点配置:
-#      defaultZone: http://eureka.likegirl.cn/eureka/
+      defaultZone: http://eureka.likegirl.cn/eureka/
       ## 高可用配置
       ## defaultZone: http://:8001/eureka/,http://eureka2:8002/eureka/
-      defaultZone: http://user:password123@192.168.11.45:8761///eureka   #设置了账号密码
+#      defaultZone: http://user:password123@192.168.11.45:8761///eureka   #设置了账号密码
 
 spring:
   application:
@@ -19,6 +19,10 @@ spring:
   http:
     encoding:
       charset: UTF-8
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

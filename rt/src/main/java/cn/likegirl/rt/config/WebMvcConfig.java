@@ -53,14 +53,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     /**
      * 上传和下载
      */
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(104857600L);
-        commonsMultipartResolver.setMaxInMemorySize(4096);
-        commonsMultipartResolver.setDefaultEncoding("UTF-8");
-        return commonsMultipartResolver;
-    }
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+//        commonsMultipartResolver.setMaxUploadSize(104857600L);
+//        commonsMultipartResolver.setMaxInMemorySize(4096);
+//        commonsMultipartResolver.setDefaultEncoding("UTF-8");
+//        return commonsMultipartResolver;
+//    }
 
 
     @Value("${app.message.basename}")
