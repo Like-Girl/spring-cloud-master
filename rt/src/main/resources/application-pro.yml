@@ -10,13 +10,13 @@ spring:
 #    port: 6379 # 哨兵模式下不用配置
     password: 123456789
     sentinel:
-      nodes: a1:26379
+      nodes: 106.15.184.22:26379
       master: mymaster
   rabbitmq:
-    host: 192.168.11.241
+    host: 192.168.3.65
     port: 5672
-    username: admin
-    password: 123456
+    username: guest
+    password: guest
     virtual-host: /
     #支持发布确认
     publisher-confirms: true

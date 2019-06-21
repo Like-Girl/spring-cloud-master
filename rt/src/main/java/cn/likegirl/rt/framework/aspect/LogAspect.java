@@ -69,8 +69,7 @@ public class LogAspect {
         LOGGER.info("Started request requester [{}] method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", requester, methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
 		long start = System.currentTimeMillis();
 		Object result = joinPoint.proceed();
-        LOGGER.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ",
-				requester, methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
+//        LOGGER.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ", requester, methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
 		return result;
 	}
 

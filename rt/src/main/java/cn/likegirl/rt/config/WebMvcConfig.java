@@ -10,6 +10,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -94,6 +95,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         validator.setValidationMessageSource(messageSource());
         return validator;
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        //addMapping 跨域所能访问的路径
+        //allowedOrigins：那些域可以访问，默认为任何域都可以访问
+        registry.addMapping("/excel/**").allowedOrigins("*");
+    }
+
 
 
 
