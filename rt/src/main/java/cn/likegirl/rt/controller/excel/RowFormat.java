@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class RowFormat {
 
-  private List<CellFormat> cellFormats = new LinkedList<CellFormat>();
+  private LinkedList<CellFormat> cellFormats = new LinkedList<CellFormat>();
 
 
   public void addCellFormat(CellFormat cellFormat){
@@ -16,6 +16,14 @@ public class RowFormat {
 
   public CellFormat getCellFormat(int index){
     return cellFormats.get(index);
+  }
+
+  public void removeLast(){
+    cellFormats.removeLast();
+  }
+
+  public int size(){
+    return cellFormats.size();
   }
 
 }

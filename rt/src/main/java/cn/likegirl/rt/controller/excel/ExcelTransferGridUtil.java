@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -94,6 +95,7 @@ public class ExcelTransferGridUtil {
       throws Exception {
     Assert.notNull(work,"Workbook must not be null.");
     Sheet sheet;
+    int maxColumnNum = 0;
     final FormulaEvaluator formulaEvaluator = work.getCreationHelper().createFormulaEvaluator();
     if ((sheet = work.getSheetAt(sheetNo)) == null) {
       throw new Exception("Sheet must not be null.");
@@ -114,10 +116,6 @@ public class ExcelTransferGridUtil {
         LOGGER.warn("SheetName [{}] Row [{}] 为空", sheet.getSheetName(), rowNum);
         continue;
       }
-      // 获取列数
-      // 遍历所有的列
-      // 前置布局
-      sheetRows.put(rowNum, rowFormat);
       for (int cellNum = 0; cellNum < row.getLastCellNum(); cellNum++) {
         CellFormat cellFormat = new CellFormat(cellNum, null);
         // 前置布局
@@ -129,14 +127,64 @@ public class ExcelTransferGridUtil {
         Object v = getCellValue(cell, formulaEvaluator);
         cellFormat.setValue(String.valueOf(v));
         // 判断该cell是否为合同单元格中的一个
-        isCombineCell(combineCellList, cell, cellFormat);
+        combineCellProcess(combineCellList, cell, cellFormat);
+        // 最大有效列数
+        if(cellNum >= maxColumnNum && StringUtils.isNotEmpty(cellFormat.getValue())){
+          if(cellFormat.getMerged()){
+            maxColumnNum = cellNum + cellFormat.getMergedCol() - 1;
+          }else{
+            maxColumnNum = cellNum;
+          }
+        }
         // 若为合并的单元，则判断是否有值
-        combineCellValueProcess(rowNum, cellNum, cellFormat, sheetRows);
+        combineCellValueProcess(rowNum, cellNum, cellFormat,rowFormat, sheetRows);
+
+
+      }
+      // 校验空白行 后置布局
+      if(isBlankRow(rowFormat)){
+        sheetRows.put(rowNum, rowFormat);
       }
     }
+    // 补偿列
+    compensate(sheetRows,maxColumnNum);
     callback.afterAnalyze();
     work.close();
     return sheetRows;
+  }
+
+  /**
+   * 补偿列
+   * 去掉多余单元格
+   * 追加默认单元格
+   *
+   * @param rows      数据
+   * @param maxColumn 最大列数
+   */
+  private static void compensate(Map<Integer, RowFormat> rows,int maxColumn){
+    final int max = maxColumn + 1;
+    LOGGER.info("Excel 最大列数为 [{}]", max);
+    rows.forEach((k,v) -> {
+      for(;;){
+        if(v.size() == max){
+          break;
+        }else if(v.size() > max){
+          v.removeLast();
+        }else {
+          CellFormat cellFormat = new CellFormat(v.size(), null);
+          v.addCellFormat(cellFormat);
+        }
+      }
+    });
+  }
+
+  /**
+   * 校验空白行
+   * @param rowFormat Row
+   * @return  Boolean
+   */
+  private static boolean isBlankRow(RowFormat rowFormat){
+    return rowFormat.getCellFormats().stream().anyMatch(cell -> StringUtils.isNotEmpty(cell.getValue()));
   }
 
   /**
@@ -163,8 +211,7 @@ public class ExcelTransferGridUtil {
    * @param cell 单元格
    * @param cellFormat 单元格格式
    */
-  private static void isCombineCell(List<CellRangeAddress> listCombineCell, Cell cell,
-      CellFormat cellFormat) throws Exception {
+  private static void combineCellProcess(List<CellRangeAddress> listCombineCell, Cell cell, CellFormat cellFormat) {
 
     int fc, // 起始列角标
         lc, // 末尾列角标
@@ -201,7 +248,7 @@ public class ExcelTransferGridUtil {
 
 
   private static void combineCellValueProcess(int currentRowNum, int currentCellNum,
-      CellFormat cellFormat, Map<Integer, RowFormat> sheetRows) {
+      CellFormat cellFormat, RowFormat currentRowFormat, Map<Integer, RowFormat> sheetRows) {
     if (cellFormat.getMerged()) {
       if (DEFAULT_COMBINE_CELL_NON_VALUE.equals(cellFormat.getValue())) {
         // 合并单元格： 空值
@@ -213,8 +260,13 @@ public class ExcelTransferGridUtil {
           // 计算获取左上角的数据
           // 若在当前行
           // 不捕捉NPE
-          String value = sheetRows.get(cellFormat.getFirstRow())
-              .getCellFormat(cellFormat.getFirstColumn()).getValue();
+          String value;
+          if(currentRowNum == cellFormat.getFirstRow()){
+            value = currentRowFormat.getCellFormat(cellFormat.getFirstColumn()).getValue();
+          }else{
+            value = sheetRows.get(cellFormat.getFirstRow())
+                .getCellFormat(cellFormat.getFirstColumn()).getValue();
+          }
           cellFormat.setValue(value);
         }
       } else {
