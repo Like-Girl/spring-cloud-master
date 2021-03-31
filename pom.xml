@@ -53,7 +53,7 @@
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<org.codehaus.jackson.version>1.9.13</org.codehaus.jackson.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
-		<guava.version>26.0-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
         <lombok.version>1.18.0</lombok.version>
 		<org.apache.shiro.version>1.2.4</org.apache.shiro.version>
 	</properties>
